@@ -1,27 +1,140 @@
 const fi = (function() {
-  return {
-    libraryMethod: function() {
-      return 'Start by reading https://medium.com/javascript-scene/master-the-javascript-interview-what-is-functional-programming-7f218c68b3a0'
-    },
+    return {
+        libraryMethod: function() {
+            return 'Start by reading https://medium.com/javascript-scene/master-the-javascript-interview-what-is-functional-programming-7f218c68b3a0'
+        },
 
-    each: function() {
+        each: function(collection, callback) {
+            for (const i in collection) {
+                callback(collection[i])
+            }
+            return collection
+        },
 
-    },
+        map: function(collection, callback) {
+            let array = []
+            for (const i in collection) {
+                array.push(callback(collection[i]))
+            }
+            return array
 
-    map: function() {
+        },
 
-    },
+        reduce: function(collection, cbFunction, accumulator = 0) {
+            let total = accumulator
+            Object.values(collection).forEach(x => total = cbFunction(total, x, collection))
+            return total
+        },
+        find: function(collection, predicate) {
+            for (const i in collection) {
+                if (predicate(collection[i]) === true) {
+                    return collection[i]
+                }
+            }
+        },
 
-    reduce: function() {
+        filter: function(collection, predicate) {
+            const newArr = []
+            for (const i in collection) {
+                if (predicate(collection[i]) === true) {
+                    newArr.push(collection[i])
+                }
+            }
+            return newArr
+        },
 
-    },
+        size: function(collection) {
+            return Object.keys(collection).length
+        },
 
-    functions: function() {
+        first: function(array, n) {
+            const newArr = []
+            if (n === undefined) {
+                return array[0]
+            } else {
+                return array.slice(0, n)
+            }
+        },
 
-    },
+        last: function(array, n) {
+            const newArr = []
+            if (n === undefined) {
+                return array[array.length - 1]
+            } else {
+                return array.slice(array.length - n)
+            }
+        },
+
+        compact: function(array) {
+            const newArr = []
+            for (const i in array) {
+                if (array[i]) {
+                    newArr.push(array[i])
+                }
+            }
+            return newArr
+        },
+
+        sortBy: function(arr, iteratee) {
+            return [...arr].sort(function(a, b) { return iteratee(a) - iteratee(b) })
+        },
 
 
-  }
+        flatten: function flatten(array, shallow) {
+            let newArr = []
+            for (var i in array) {
+                if (shallow === true) {
+                    if (Array.isArray(array[i])) {
+                        newArr = newArr.concat(array[i])
+                    } else {
+                        newArr.push(array[i])
+                    }
+                } else {
+                    if (Array.isArray(array[i])) {
+                        newArr = newArr.concat(flatten(array[i]))
+                    } else {
+                        newArr.push(array[i])
+                    }
+                }
+            }
+            return newArr
+        },
+
+
+        uniq: function(list) {
+            let newArr = []
+            for (var i in list) {
+                if (newArr.includes(list[i]) === false) {
+                    newArr.push(list[i])
+                }
+            }
+            return newArr
+        },
+
+        keys: function(obj) {
+            return Object.keys(obj)
+        },
+
+        values: function(obj) {
+            return Object.values(obj)
+        },
+
+
+
+        functions: function(fi) {
+            let newArr = []
+            for (var i in fi) {
+                if (typeof fi[i] == "function") {
+                    newArr.push(fi[i])
+                }
+            }
+            newArr.sort()
+            return newArr
+
+        },
+
+
+    }
 })()
 
 fi.libraryMethod()
